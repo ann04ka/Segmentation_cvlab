@@ -6,7 +6,6 @@ class KMeans:
         self.tolerance = tolerance
         self.cluster_means = np.zeros(n_clusters)
         self.max_iter = max_iter
-        # self.init_method = init_method
 
     def fit(self, X):
         row_count, col_count = X.shape

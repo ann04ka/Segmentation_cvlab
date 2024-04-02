@@ -4,9 +4,6 @@ import numpy as np
 from k_means import KMeans
 import random
 
-# n = 5
-# img = cv.imread('varan.jpg', cv.IMREAD_GRAYSCALE)
-
 def getClassesByHist(n, img):
     """
     Segments grayscale image into n equal areas
@@ -36,37 +33,12 @@ def getClassesByHist(n, img):
             for i in range(len(light_list)):
                 if img[h][w] >= light_list[i]:
                     result[h][w] = int(255 / (n-1)) * i
-
     # vals = result.flatten()
     # b, bins, patches = plt.hist(vals, 255)
     # plt.xlim([0, 255])
     # plt.show()
 
     return(result)
-# getClassesByHist(n, img)
-
-input = cv.imread('chess.png')
-print(input)
-# input = cv.cvtColor(input, cv.COLOR_BGR2GRAY)
-input_shape = input.shape
-input = input / 255
-input = input.reshape(-1, 1)
-#
-model = KMeans(n_clusters=3) # When var_part is used, the algorithm is a lot faster.
-cluster_means, image_data_with_clusters = model.fit(input)
-
-output = np.zeros(input.shape)
-
-for i, cluster in enumerate(image_data_with_clusters[:, -1]):
-    output[i, :] = cluster_means[int(cluster)]
-print(cluster_means)
-
-output_reshaped = output.reshape(input_shape)
-
-plt.close()
-plt.axis('off')
-plt.imshow(output_reshaped, cmap="gray")
-plt.show()
 
 def elbow_method(X, max_k = 10):
     costs = []
@@ -81,5 +53,27 @@ def elbow_method(X, max_k = 10):
     plt.ylabel("Cost")
     plt.show()
 
+# getClassesByHist(n, img)
 # elbow_method(input)
+
+input = cv.imread('varan.jpg', cv.IMREAD_GRAYSCALE)
+print(input)
+# input = cv.cvtColor(input, cv.COLOR_BGR2GRAY)
+input_shape = input.shape
+input = input / 255
+input = input.reshape(-1, 1)
+#
+model = KMeans(n_clusters=3)
+cluster_means, image_data_with_clusters = model.fit(input)
+output = np.zeros(input.shape)
+
+for i, cluster in enumerate(image_data_with_clusters[:, -1]):
+    output[i, :] = cluster_means[int(cluster)]
+
+output_reshaped = output.reshape(input_shape)
+
+plt.close()
+plt.axis('off')
+plt.imshow(output_reshaped, cmap="gray")
+plt.show()
 
